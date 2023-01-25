@@ -1,10 +1,10 @@
 # This is a sample configuration file for Nextcloud backup and restore scripts.
 # It is recommended to use the script `setup.sh` for an easy automated setup of the backup and restore scripts.
-# This will then create the configuration file `NextcloudBackupRestore.conf`.
+# This will then create the configuration file `backup.conf`.
 #
 # If you do not want to use the setup script, you can also take this file as starting point.
 # You will have to edit all section marked with '# TODO' in order to customize the configuration so it fits your Nextcloud instance.
-# Simply copy the sample file (`cp NextcloudBackupRestore.conf.sample NextcloudBackupRestore.conf`) and edit the file accordingly.
+# Simply copy the sample file (`cp backup.conf.sample backup.conf`) and edit the file accordingly.
 
 # TODO: The main backup directory
 backupMainDir='/media/hdd/nextcloud_backup'

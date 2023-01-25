@@ -25,7 +25,7 @@ set -Eeuo pipefail
 
 # Variables
 working_dir=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
-configFile="${working_dir}/NextcloudBackupRestore.conf"   # Holds the configuration for NextcloudBackup.sh and NextcloudRestore.sh
+configFile="${working_dir}/backup.conf"   # Holds the configuration for NextcloudBackup.sh and NextcloudRestore.sh
 restore=${1:-}
 _backupMainDir=${2:-}
 

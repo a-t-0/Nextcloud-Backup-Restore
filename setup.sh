@@ -8,7 +8,7 @@
 # Usage:
 # 	- call the setup.sh script
 #   - Enter the required information
-#   - A central configuration file `NextcloudBackupRestore.conf` will be created to match you Nextcloud instance.
+#   - A central configuration file `backup.conf` will be created to match you Nextcloud instance.
 #   - This configuration file then is used by the backup/restore scripts.
 #
 # The script is based on an installation of Nextcloud using nginx and MariaDB, see https://decatec.de/home-server/nextcloud-auf-ubuntu-server-18-04-lts-mit-nginx-mariadb-php-lets-encrypt-redis-und-fail2ban/
@@ -16,7 +16,7 @@
 
 #
 # IMPORTANT
-# The setup.sh script automated the configuration for the backup/restore scripts (file `NextcloudBackupRestore.conf`).
+# The setup.sh script automated the configuration for the backup/restore scripts (file `backup.conf`).
 # However, you should always check this configuration BEFORE executing these!
 #
 
@@ -33,7 +33,7 @@ webserverServiceName='nginx'
 useCompression=true
 includeUpdaterBackups=false
 
-NextcloudBackupRestoreConf='NextcloudBackupRestore.conf'  # Holds the configuration for NextcloudBackup.sh and NextcloudRestore.sh
+NextcloudBackupRestoreConf='backup.conf'  # Holds the configuration for NextcloudBackup.sh and NextcloudRestore.sh
 
 #
 # Gather information
