@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Create empty configuration file.
+#echo "" > backup.conf
+#echo "" > restore.conf
+
 # Variables
 # TODO: The directory of your Nextcloud installation (this is a directory under your web root)
 nextcloudFileDir='/var/www/nextcloud'
@@ -10,11 +14,10 @@ webserverUser='www-data'
 # TODO: The service name of the web server. Used to start/stop web server (e.g. 'systemctl start <webserverServiceName>')
 webserverServiceName='nginx'
 
-
 # Set variables
 nextcloudFileDirSed=${nextcloudFileDir//\//\\/}
 
-sed -i "s/^nextcloudFileDir.*/nextcloudFileDir=$nextcloudFileDirSed/" ./NextcloudBackup.sh
+sed -i "s/^nextcloudFileDir.*/nextcloudFileDir=$nextcloudFileDirSed/" backup.conf
 
 sed -i "s/^nextcloudFileDir.*/nextcloudFileDir=$nextcloudFileDirSed/" ./NextcloudRestore.sh
 
