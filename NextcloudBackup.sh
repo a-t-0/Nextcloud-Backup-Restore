@@ -55,7 +55,8 @@ backupDir="${backupMainDir}/${currentDate}"
 
 function DisableMaintenanceMode() {
 	echo "$(date +"%H:%M:%S"): Switching off maintenance mode..."
-	sudo -u "${webserverUser}" php ${nextcloudFileDir}/occ maintenance:mode --off
+	#sudo -u "${webserverUser}" php ${nextcloudFileDir}/occ maintenance:mode --off
+	sudo nextcloud.occ maintenance:mode --off
 	echo "Done"
 	echo
 }
@@ -111,7 +112,8 @@ fi
 # Set maintenance mode
 #
 echo "$(date +"%H:%M:%S"): Set maintenance mode for Nextcloud..."
-sudo -u "${webserverUser}" php ${nextcloudFileDir}/occ maintenance:mode --on
+#sudo -u "${webserverUser}" php ${nextcloudFileDir}/occ maintenance:mode --on
+sudo nextcloud.occ maintenance:mode --on
 echo "Done"
 echo
 

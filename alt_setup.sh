@@ -2,7 +2,7 @@
 
 # Create empty configuration file.
 configuration_filename="backup.conf"
-cp -fr backup.conf.sample "$configuration_filename"
+cp -fr NextcloudBackupRestore.conf.sample "$configuration_filename"
 #echo "" > restore.conf
 
 # Variables
