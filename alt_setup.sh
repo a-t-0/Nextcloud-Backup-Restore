@@ -21,11 +21,11 @@ sed -i "s/^nextcloudFileDir.*/nextcloudFileDir=$nextcloudFileDirSed/" backup.con
 
 sed -i "s/^nextcloudFileDir.*/nextcloudFileDir=$nextcloudFileDirSed/" ./NextcloudRestore.sh
 
-sed -i "s/^webserverUser.*/webserverUser=$webserverUser/" ./NextcloudBackup.sh
-sed -i "s/^webserverUser.*/webserverUser=$webserverUser/" ./NextcloudRestore.sh
+sed -i "s/^webserverUser.*/webserverUser=\'$webserverUser\'/" backup.conf
+sed -i "s/^webserverUser.*/webserverUser=\'$webserverUser\'/" ./NextcloudRestore.sh
 
-sed -i "s/^webserverServiceName.*/webserverServiceName=$webserverServiceName/" ./NextcloudBackup.sh
-sed -i "s/^webserverServiceName.*/webserverServiceName=$webserverServiceName/" ./NextcloudRestore.sh
+sed -i "s/^webserverServiceName.*/webserverServiceName=\'$webserverServiceName\'/" backup.conf
+sed -i "s/^webserverServiceName.*/webserverServiceName=\'$webserverServiceName\'/" ./NextcloudRestore.sh
 
 # Get variables directly from Nextcloud
 function occ_get() {
@@ -38,31 +38,31 @@ nextcloudDataDir=$(occ_get datadirectory)
 nextcloudDataDirSed=${nextcloudDataDir//\//\\/}
 if echo "$nextcloudFileDir" | grep -q "$nextcloudDataDir"; then 
 	
-	sed -i "s/^nextcloudDataDir.*/# nextcloudDataDir/" ./NextcloudBackup.sh
+	sed -i "s/^nextcloudDataDir.*/# nextcloudDataDir/" backup.conf
 	sed -i "s/^nextcloudDataDir.*/# nextcloudDataDir/" ./NextcloudRestore.sh
 	
 else
-	sed -i "s/^nextcloudDataDir.*/nextcloudDataDir=$nextcloudDataDirSed/" ./NextcloudBackup.sh
-	sed -i "s/^nextcloudDataDir.*/nextcloudDataDir=$nextcloudDataDirSed/" ./NextcloudRestore.sh
+	sed -i "s/^nextcloudDataDir.*/nextcloudDataDir=\'$nextcloudDataDirSed\'/" backup.conf
+	sed -i "s/^nextcloudDataDir.*/nextcloudDataDir=\'$nextcloudDataDirSed\'/" ./NextcloudRestore.sh
 	
 fi
 
 # The name of the database system (one of: mysql, mariadb, postgresql)
 databaseSystem=$(occ_get dbtype)
-sed -i "s/^databaseSystem.*/databaseSystem=$databaseSystem/" ./NextcloudBackup.sh
-sed -i "s/^databaseSystem.*/databaseSystem=$databaseSystem/" ./NextcloudRestore.sh
+sed -i "s/^databaseSystem.*/databaseSystem=\'$databaseSystem\'/" backup.conf
+sed -i "s/^databaseSystem.*/databaseSystem=\'$databaseSystem\'/" ./NextcloudRestore.sh
 
 # Your Nextcloud database name
 nextcloudDatabase=$(occ_get dbname)
-sed -i "s/^nextcloudDatabase.*/nextcloudDatabase=$nextcloudDatabase/" ./NextcloudBackup.sh
-sed -i "s/^nextcloudDatabase.*/nextcloudDatabase=$nextcloudDatabase/" ./NextcloudRestore.sh
+sed -i "s/^nextcloudDatabase.*/nextcloudDatabase=\'$nextcloudDatabase\'/" backup.conf
+sed -i "s/^nextcloudDatabase.*/nextcloudDatabase=\'$nextcloudDatabase\'/" ./NextcloudRestore.sh
 
 # Your Nextcloud database user
 dbUser=$(occ_get dbuser)
-sed -i "s/^dbUser.*/dbUser=$dbUser/" ./NextcloudBackup.sh
-sed -i "s/^dbUser.*/dbUser=$dbUser/" ./NextcloudRestore.sh
+sed -i "s/^dbUser.*/dbUser=\'$dbUser\'/" backup.conf
+sed -i "s/^dbUser.*/dbUser=\'$dbUser\'/" ./NextcloudRestore.sh
 
 # The password of the Nextcloud database user
 dbPassword=$(occ_get dbpassword)
-sed -i "s/^dbPassword.*/dbPassword=$dbPassword/" ./NextcloudBackup.sh
-sed -i "s/^dbPassword.*/dbPassword=$dbPassword/" ./NextcloudRestore.sh
+sed -i "s/^dbPassword.*/dbPassword=\'$dbPassword\'/" backup.conf
+sed -i "s/^dbPassword.*/dbPassword=\'$dbPassword\'/" ./NextcloudRestore.sh
