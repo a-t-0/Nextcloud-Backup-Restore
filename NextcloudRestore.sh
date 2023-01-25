@@ -179,10 +179,10 @@ fi
 echo "$(date +"%H:%M:%S"): Dropping old Nextcloud DB..."
 
 if [ "${databaseSystem,,}" = "mysql" ] || [ "${databaseSystem,,}" = "mariadb" ]; then
-    if test -f "$FILE"; then
+    if test -f "${nextcloudDatabase}"; then
         mysql -h localhost -u "${dbUser}" -p"${dbPassword}" -e "DROP DATABASE ${nextcloudDatabase}"    
     else
-        echo "TODO: restore mysqldump"
+        echo "TODO: restore mysqldump part I/III"
     fi
 elif [ "${databaseSystem,,}" = "postgresql" ]; then
 	sudo -u postgres psql -c "DROP DATABASE ${nextcloudDatabase};"
@@ -194,12 +194,16 @@ echo
 echo "$(date +"%H:%M:%S"): Creating new DB for Nextcloud..."
 
 if [ "${databaseSystem,,}" = "mysql" ] || [ "${databaseSystem,,}" = "mariadb" ]; then
-    if [ ! -z "${dbNoMultibyte+x}" ] && [ "${dbNoMultibyte}" = true ] ; then
-        # Database from the backup DOES NOT use UTF8 with multibyte support (e.g. for emoijs in filenames)
-        mysql -h localhost -u "${dbUser}" -p"${dbPassword}" -e "CREATE DATABASE ${nextcloudDatabase}"
+    if test -f "${nextcloudDatabase}"; then
+        if [ ! -z "${dbNoMultibyte+x}" ] && [ "${dbNoMultibyte}" = true ] ; then
+            # Database from the backup DOES NOT use UTF8 with multibyte support (e.g. for emoijs in filenames)
+            mysql -h localhost -u "${dbUser}" -p"${dbPassword}" -e "CREATE DATABASE ${nextcloudDatabase}"
+        else
+            # Database from the backup uses UTF8 with multibyte support (e.g. for emoijs in filenames)
+            mysql -h localhost -u "${dbUser}" -p"${dbPassword}" -e "CREATE DATABASE ${nextcloudDatabase} CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci"
+        fi
     else
-        # Database from the backup uses UTF8 with multibyte support (e.g. for emoijs in filenames)
-        mysql -h localhost -u "${dbUser}" -p"${dbPassword}" -e "CREATE DATABASE ${nextcloudDatabase} CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci"
+        echo "TODO: restore mysqldump part II/III"
     fi
 elif [ "${databaseSystem,,}" = "postgresql" ] || [ "${databaseSystem,,}" = "pgsql" ]; then
     sudo -u postgres psql -c "CREATE DATABASE ${nextcloudDatabase} WITH OWNER ${dbUser} TEMPLATE template0 ENCODING \"UNICODE\";"
@@ -211,7 +215,11 @@ echo
 echo "$(date +"%H:%M:%S"): Restoring backup DB..."
 
 if [ "${databaseSystem,,}" = "mysql" ] || [ "${databaseSystem,,}" = "mariadb" ]; then
-	mysql -h localhost -u "${dbUser}" -p"${dbPassword}" "${nextcloudDatabase}" < "${currentRestoreDir}/${fileNameBackupDb}"
+    if test -f "${nextcloudDatabase}"; then
+	    mysql -h localhost -u "${dbUser}" -p"${dbPassword}" "${nextcloudDatabase}" < "${currentRestoreDir}/${fileNameBackupDb}"
+    else
+        echo "TODO: restore mysqldump part III/III"
+    fi
 elif [ "${databaseSystem,,}" = "postgresql" ] || [ "${databaseSystem,,}" = "pgsql" ]; then
 	sudo -u postgres psql "${nextcloudDatabase}" < "${currentRestoreDir}/${fileNameBackupDb}"
 fi
