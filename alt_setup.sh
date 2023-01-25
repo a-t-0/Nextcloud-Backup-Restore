@@ -13,7 +13,9 @@ webserverServiceName='nginx'
 
 # Set variables
 nextcloudFileDirSed=${nextcloudFileDir//\//\\/}
+
 sed -i "s/^nextcloudFileDir.*/nextcloudFileDir=$nextcloudFileDirSed/" ./NextcloudBackup.sh
+
 sed -i "s/^nextcloudFileDir.*/nextcloudFileDir=$nextcloudFileDirSed/" ./NextcloudRestore.sh
 
 sed -i "s/^webserverUser.*/webserverUser=$webserverUser/" ./NextcloudBackup.sh
@@ -24,18 +26,22 @@ sed -i "s/^webserverServiceName.*/webserverServiceName=$webserverServiceName/" .
 
 # Get variables directly from Nextcloud
 function occ_get() {
-	sudo -u "${webserverUser}" php ${nextcloudFileDir}/occ config:system:get "$1"
+	#sudo -u "${webserverUser}" php ${nextcloudFileDir}/occ config:system:get "$1"
+	sudo nextcloud.occ config:system:get "$1"
 }
 
 # The directory of your Nextcloud data directory (outside the Nextcloud file directory)
 nextcloudDataDir=$(occ_get datadirectory)
 nextcloudDataDirSed=${nextcloudDataDir//\//\\/}
 if echo "$nextcloudFileDir" | grep -q "$nextcloudDataDir"; then 
+	
 	sed -i "s/^nextcloudDataDir.*/# nextcloudDataDir/" ./NextcloudBackup.sh
 	sed -i "s/^nextcloudDataDir.*/# nextcloudDataDir/" ./NextcloudRestore.sh
+	
 else
 	sed -i "s/^nextcloudDataDir.*/nextcloudDataDir=$nextcloudDataDirSed/" ./NextcloudBackup.sh
 	sed -i "s/^nextcloudDataDir.*/nextcloudDataDir=$nextcloudDataDirSed/" ./NextcloudRestore.sh
+	
 fi
 
 # The name of the database system (one of: mysql, mariadb, postgresql)
