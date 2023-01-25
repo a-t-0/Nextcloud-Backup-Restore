@@ -52,3 +52,18 @@ sed -i "s/^dbUser.*/dbUser=\'$dbUser\'/" "$configuration_filename"
 # The password of the Nextcloud database user
 dbPassword=$(occ_get dbpassword)
 sed -i "s/^dbPassword.*/dbPassword=\'$dbPassword\'/" "$configuration_filename"
+
+
+# Ensure database software is available on system.
+if [ "$databaseSystem" == "mysql" ]; then
+	sudo apt install mysql-client-core-8.0 -y
+	sudo apt-get install mysql-server -y
+elif [ "$databaseSystem" == "mariadb" ]; then
+	sudo apt install mysql-client-core-8.0 -y
+	sudo apt-get install mysql-server -y
+elif [ "$databaseSystem" == "postgresql" ]; then
+	sudo apt install postgresql-client-common -y
+fi
+
+# Ensure pigz compression system is available.
+sudo apt install pigz -y

@@ -104,7 +104,8 @@ fi
 # Set maintenance mode
 #
 echo "$(date +"%H:%M:%S"): Set maintenance mode for Nextcloud..."
-sudo -u "${webserverUser}" php ${nextcloudFileDir}/occ maintenance:mode --on
+#sudo -u "${webserverUser}" php ${nextcloudFileDir}/occ maintenance:mode --on
+sudo nextcloud.occ maintenance:mode --on
 echo "Done"
 echo
 
@@ -143,20 +144,8 @@ if [ ! -z "${nextcloudLocalExternalDataDir+x}" ] ; then
 fi
 
 #
-# Restore file and data directory
+# Restore data directory
 #
-
-# File directory
-echo "$(date +"%H:%M:%S"): Restoring Nextcloud file directory..."
-
-if [ "$useCompression" = true ] ; then
-    `$extractCommand "${currentRestoreDir}/${fileNameBackupFileDir}" -C "${nextcloudFileDir}"`
-else
-    tar -xmpf "${currentRestoreDir}/${fileNameBackupFileDir}" -C "${nextcloudFileDir}"
-fi
-
-echo "Done"
-echo
 
 # Data directory
 echo "$(date +"%H:%M:%S"): Restoring Nextcloud data directory..."
@@ -190,7 +179,11 @@ fi
 echo "$(date +"%H:%M:%S"): Dropping old Nextcloud DB..."
 
 if [ "${databaseSystem,,}" = "mysql" ] || [ "${databaseSystem,,}" = "mariadb" ]; then
-    mysql -h localhost -u "${dbUser}" -p"${dbPassword}" -e "DROP DATABASE ${nextcloudDatabase}"
+    if test -f "$FILE"; then
+        mysql -h localhost -u "${dbUser}" -p"${dbPassword}" -e "DROP DATABASE ${nextcloudDatabase}"    
+    else
+        echo "TODO: restore mysqldump"
+    fi
 elif [ "${databaseSystem,,}" = "postgresql" ]; then
 	sudo -u postgres psql -c "DROP DATABASE ${nextcloudDatabase};"
 fi
@@ -252,7 +245,8 @@ echo
 # Disbale maintenance mode
 #
 echo "$(date +"%H:%M:%S"): Switching off maintenance mode..."
-sudo -u "${webserverUser}" php ${nextcloudFileDir}/occ maintenance:mode --off
+#sudo -u "${webserverUser}" php ${nextcloudFileDir}/occ maintenance:mode --off
+sudo nextcloud.occ maintenance:mode --off
 echo "Done"
 echo
 

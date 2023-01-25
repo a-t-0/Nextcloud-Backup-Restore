@@ -126,20 +126,6 @@ echo "Done"
 echo
 
 #
-# Backup file directory
-#
-echo "$(date +"%H:%M:%S"): Creating backup of Nextcloud file directory..."
-
-if [ "$useCompression" = true ] ; then
-	`$compressionCommand "${backupDir}/${fileNameBackupFileDir}" -C "${nextcloudFileDir}" .`
-else
-	tar -cpf "${backupDir}/${fileNameBackupFileDir}" -C "${nextcloudFileDir}" .
-fi
-
-echo "Done"
-echo
-
-#
 # Backup data directory
 #
 echo "$(date +"%H:%M:%S"): Creating backup of Nextcloud data directory..."
@@ -189,7 +175,8 @@ if [ "${databaseSystem,,}" = "mysql" ] || [ "${databaseSystem,,}" = "mariadb" ];
 		errorecho "ERROR: MySQL/MariaDB not installed (command mysqldump not found)."
 		errorecho "ERROR: No backup of database possible!"
 	else
-		mysqldump --single-transaction -h localhost -u "${dbUser}" -p"${dbPassword}" "${nextcloudDatabase}" > "${backupDir}/${fileNameBackupDb}"
+		# mysqldump --single-transaction -h localhost -u "${dbUser}" -p"${dbPassword}" "${nextcloudDatabase}" > "${backupDir}/${fileNameBackupDb}"
+		echo "TODO: backup mysqldump"
 	fi
 
 	echo "Done"
