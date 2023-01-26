@@ -20,6 +20,8 @@ sudo ./NextcloudRestore.sh <backup date>
 E.g.:
 ```sh
 sudo ./NextcloudRestore.sh 20230125_140603
+sudo ./NextcloudRestore.sh 20230126_174139 # Without calendar.
+sudo ./NextcloudRestore.sh 20230126_174856 # With calendar and one entry.
 ```
 
 ## Backup location

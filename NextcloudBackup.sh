@@ -145,7 +145,9 @@ else
 		tar -cpf "${backupDir}/${fileNameBackupDataDir}"  -C "${nextcloudDataDir}" .
 	fi
 fi
-
+echo "backupDir=$backupDir"
+echo "fileNameBackupDataDir=$fileNameBackupDataDir"
+echo "nextcloudDataDir=$nextcloudDataDir"
 echo "Done"
 echo
 
