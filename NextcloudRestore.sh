@@ -113,7 +113,7 @@ echo
 # Stop web server
 #
 echo "$(date +"%H:%M:%S"): Stopping web server..."
-systemctl stop "${webserverServiceName}"
+#systemctl stop "${webserverServiceName}"
 echo "Done"
 echo
 
@@ -231,7 +231,7 @@ echo
 # Start web server
 #
 echo "$(date +"%H:%M:%S"): Starting web server..."
-systemctl start "${webserverServiceName}"
+#systemctl start "${webserverServiceName}"
 echo "Done"
 echo
 
